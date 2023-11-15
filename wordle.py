@@ -1,14 +1,73 @@
-# Trabajo 1 Estructura de Datos
-#
-# Wordle Game
-#
-# Integrantes:
-# + Hans Guillermo García Vargas - hggarciag@unal.edu.co
-# + Jose Manuel Molina Vásquez  - josemoloinav@unal.edu.co
-# + Juan Jose Alzate Rojas - jalzatero@unal.edu.co
-# + Fabian Andres Chiran Guevara - fchirang@unal.edu.co
-#
-# Universidad Nacional de Colombia
-#
-#
-Lemario = ('freile', 'raboso', 'zozobra', 'encina', 'manos', 'aunar', 'dengosa', 'doceno', 'lacrar', 'borradr', 'syrtes', 'liendre', 'rebuznar', 'secado', 'temprano', 'obice', 'tercias', 'pide', 'ayudante', 'cato', 'notas', 'apaleado', 'vitualla', 'favo', 'harpar', 'apacible', 'persona', 'vaguedad', 'navideo', 'losar', 'mona', 'papas', 'recalcar', 'cala', 'futuro', 'decidir', 'martelo', 'cativar', 'eslora', 'quebrada', 'alusion', 'rengln', 'juro', 'vagazo', 'tudesco', 'chulo', 'circulo', 'futil', 'terqueza', 'recarga', 'pitaa', 'estatuir', 'comento', 'hemencia', 'fusilazo', 'comissin', 'rebaxo', 'cautillo', 'alcor', 'sorrabar', 'absuelto', 'picudo', 'deseado', 'atildar', 'manpla', 'solisa', 'caxco', 'mere', 'toral', 'etcetera', 'pulperia', 'balas', 'empyreo', 'vulva', 'albada', 'laurea', 'moleta', 'galapago', 'erudito', 'ebanista', 'templadr', 'quartago', 'divulgar', 'urbano', 'carrizo', 'coitivo', 'casco', 'alabar', 'dignidad', 'bollito', 'orladura', 'bobos', 'cristel', 'alta', 'objeccin', 'paredao', 'aruar', 'vira', 'buze', 'solido', 'grillete', 'fomento', 'embuciar', 'acoplar', 'aluda', 'tuero', 'cobrir', 'menonia', 'molinete', 'cerdamen', 'pataca', 'bruxula', 'phariseo', 'agarbado', 'colla', 'hoyo', 'rebotiga', 'islilla', 'banda', 'conjugal', 'abdicar', 'ostra', 'florecer', 'velete', 'sargo', 'almarjo', 'rebaxa', 'ensay', 'zafado', 'observar', 'brasil', 'triscadr', 'corta', 'mamones', 'fractura', 'falcar', 'derribo', 'iracundo', 'ajenador', 'penetrar', 'palacio', 'nolicin', 'patibulo', 'gradual', 'Pgina', 'puta', 'encachar', 'motivo', 'fasto', 'hurtar', 'genital', 'letrero', 'saetada', 'aliviar', 'cachucho', 'ahogar', 'patria', 'retablo', 'tessera', 'ciertos', 'melapia', 'mucilago', 'burrajo', 'ainos', 'cava', 'burlador', 'folladas', 'tossigo', 'poncho', 'faltar', 'llevarse', 'zapaton', 'horneria', 'immobil', 'extinto', 'martagon', 'enfilar', 'arcaz', 'raro', 'oreado', 'alguno', 'muga', 'restaado', 'desposar', 'tunda', 'gruidor', 'tejaroz', 'tercero', 'revenido', 'prefijar', 'decucin', 'asaro', 'azebibe', 'cherubin', 'bayetas', 'detestar', 'alegria', 'yuca', 'flegmon', 'otero', 'medicina', 'vareado', 'lupia', 'vividor', 'solfeado', 'xeringar', 'cizalla', 'sirga', 'azogar', 'calizo', 'zarzoso', 'usar', 'xorgolin', 'rededor', 'chama', 'asperura', 'contrata', 'socarren', 'bistorta', 'perpiao', 'perruna', 'anudar', 'diaconia', 'harinero', 'reirse', 'pampanar', 'voluta', 'celar', 'brazas', 'bandear', 'limadura', 'abarcon', 'ruano', 'lechos', 'causador', 'godible', 'bastero', 'podagra', 'amblar', 'becafigo', 'adeshora', 'cyclope', 'amantes', 'espongia', 'cautelar', 'gusanera', 'forjar', 'pantalla', 'cuculla', 'ringlera', 'viudita', 'amechar', 'mampara', 'agostado', 'salival', 'avido', 'meliloto', 'terrino', 'friolero', 'imputado', 'analista', 'jareta', 'planchon', 'cacera', 'scinco', 'regibado', 'llorador', 'lamido', 'cenizo', 'gurupera', 'azoguejo', 'chibital', 'urdidera', 'bailiage', 'furlon', 'lucillo', 'pion', 'isla', 'moco', 'gomarra', 'sarjado', 'nubloso', 'experto', 'mojado', 'fritura', 'boronia', 'sobanda', 'gato', 'preciar', 'pedigueo', 'vendedor', 'alvar', 'marina', 'encono', 'porra', 'quadro', 'ordinal', 'galocha', 'bebedor', 'maria', 'helado', 'coscojar', 'repeln', 'cofrero', 'acaescar', 'colectar', 'brebajo', 'parron', 'famoso', 'cabaco', 'ecloga', 'bobon', 'jaen', 'criador', 'molosso', 'dividido', 'recudida', 'guacharo', 'xaraiz', 'vestirse', 'eunucho', 'riese', 'popular', 'remiendo', 'mystico', 'nmina', 'bolillo', 'permisso', 'lances', 'trulla', 'baos', 'insecto', 'estrias', 'pique', 'tortura', 'anniaga', 'sediento', 'sequedal', 'tripolio', 'denuesto', 'zulla', 'gefe', 'negativa', 'molesto', 'equo', 'mudado', 'sauseria', 'aparecer', 'mamario', 'abemolar', 'cusir', 'arterial', 'preboste', 'duracin', 'encanado', 'arquilla', 'hypecoo', 'camero', 'quinao', 'cenaculo', 'socio', 'lanzar', 'cartuxo', 'nausea', 'peedo', 'cimorra', 'concejo', 'assustar', 'paxarito', 'grueras', 'poroso', 'cojon', 'atiento', 'asnales', 'chupador', 'elogista', 'rocas', 'sciente', 'liento', 'acial', 'escapada', 'justo', 'evagacin', 'calumnia', 'acombar', 'liquido', 'garita', 'proteger', 'revezado', 'judaismo', 'lisonja', 'exornado', 'valedero', 'barriada', 'abracijo', 'gozarse', 'almete', 'fontanar', 'gilguero', 'mirlado', 'paol', 'rascado', 'cambray', 'augures', 'respecto', 'caro', 'refran', 'dominio', 'gastador', 'narigal', 'relator', 'bufante', 'fibula', 'arrebaar', 'carnicol', 'pajera', 'alfamar', 'topetudo', 'dado', 'establia', 'ponchon', 'densar', 'apurado', 'veeduria', 'armendon', 'talmud', 'pisado', 'sorba', 'ufania', 'borboton', 'assaz', 'medar', 'vibracin', 'forjado', 'arguello', 'muralla', 'gigante', 'albor', 'sinrazon', 'sufragar', 'celsitud', 'baba', 'frisar', 'melar', 'goteron', 'emanacin', 'harmaga', 'garrocha', 'quitacin', 'pecoso', 'taxativo', 'encias', 'tiritona', 'optado', 'visivo', 'amassado', 'entupido', 'segunda', 'facilimo', 'saladr', 'sedera', 'avitar', 'candil', 'hediondo', 'bobeda', 'prelacia', 'granizar', 'saliva', 'flameo', 'bizma', 'piadoso', 'echador', 'requejar', 'zumbon', 'carabo', 'mondongo', 'radiacin', 'colino', 'sonador', 'culero', 'santiguo', 'volcado', 'rapto', 'florido', 'ayudador', 'quid', 'cocle', 'agosto', 'curiana', 'formeros', 'tildar', 'minutado', 'explicar', 'farpado', 'iterar', 'humear', 'migajn', 'completo', 'tejo', 'armilar')
+from tkinter import *
+from tkinter import ttk
+
+a = "aett"
+long = len(a)
+
+def iniciarjuego():
+    global entry, cv, z
+    f1.destroy()
+
+    f2 = Frame(interfaz, width=1, height=1, bg='black')
+    f2.pack(side="top")
+
+    cv = Canvas(f2, bg="#ffffff", width=600, height=600)
+    cv.pack()
+
+    for i in range(30, 550, int(550 / long)):
+        for j in range(25, 575, 100):
+            cv.create_rectangle(i, j, i + int(550 / long), j + 70, fill='white')
+
+
+    input_frame = Frame(interfaz, bg='grey')
+    input_frame.pack(side='top', pady=10)
+
+    entry = Entry(input_frame, width=10, justify="left", font=["Arial", 30])
+    entry.focus_set()
+    entry.pack(side='left', padx=10)
+    z = 55 
+    def ingresar_intento():
+        global z  # Declare z as a global variable
+        intento = entry.get()
+        if long == 4:
+            for i in range(long):
+                cv.create_text(100 + i * 130, z, text=intento[i], font=("Arial", 55))
+            z += 100
+        elif long == 5:
+            for i in range(long):
+                cv.create_text(100 + i * 104, z, text=intento[i], font=("Arial", 55))
+            z += 100
+        elif long == 6:
+            for i in range(long):
+                cv.create_text(90 + i * 87, z, text=intento[i], font=("Arial", 55))
+            z += 100
+        elif long == 7:
+            for i in range(long):
+                cv.create_text(80 + i * 74, z, text=intento[i], font=("Arial", 55))
+            z += 100
+        elif long == 8:
+            for i in range(long):
+                cv.create_text(70 + i * 65, z, text=intento[i], font=("Arial", 55))
+            z += 100
+        print("el intento fue", intento)
+        entry.delete(0, END)
+
+    ttk.Button(input_frame, text="Ingresar intento", width=20, command=ingresar_intento).pack(side='left', pady=0, padx=10)
+
+interfaz = Tk()
+interfaz.title('Wordle')
+interfaz.geometry('600x690')
+interfaz.config(bg='grey')
+interfaz.resizable(width=False, height=False)
+
+f1 = Frame(interfaz, width=800, height=800, bg='grey', pady=100)
+f1.pack(side="top")
+
+boton_iniciar_juego = Button(f1, text='Iniciar Juego de Wordle', font=("Arial", 30),
+                             bg='yellow', command=iniciarjuego, justify="center", width=18, height=4, padx=82, pady=100)
+boton_iniciar_juego.grid(row=0, column=0, padx=7)
+
+
+
+interfaz.update()
+interfaz.mainloop()
