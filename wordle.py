@@ -135,12 +135,14 @@ trie_root = build_trie(word_list)
 def crear_interfaz():
     global interfaz,f1
 
+    score = 0
     f1 = Frame(interfaz, width=800, height=800, bg='grey', pady=100)
     f1.pack(side="top")
 
     boton_iniciar_juego = Button(f1, text='Iniciar Juego de Wordle', font=("Arial", 30),
                              bg='yellow', command=iniciarjuego, justify="center", width=18, height=4, padx=82, pady=100)
     boton_iniciar_juego.grid(row=0, column=0, padx=7)
+
 
 def iniciarjuego():
     global entry, cv, z
@@ -158,6 +160,7 @@ def iniciarjuego():
 
     input_frame = Frame(interfaz, bg='grey')
     input_frame.pack(side='top', pady=10)
+
 
     def validate_input(char, current_text):
         return char.isalpha() or char == ""
@@ -225,7 +228,11 @@ def iniciarjuego():
                             font=("Arial", 55), fill=colores[i])
             z += 100
             intentos+=1
+
             print("El intento fue el numero: ", intentos)
+
+            score = intentos
+            cantidad4.config(text="{}".format(score))
             entry.delete(0, END)
         else:
             print("Palabra no encontrada o palabra inválida. Por favor, ingrese una palabra válida.")
@@ -240,6 +247,14 @@ def iniciarjuego():
             
 
     ttk.Button(input_frame, text="Ingresar intento", width=20, command=ingresar_intento).pack(side='left', pady=0, padx=10)
+
+    
+    cantidad4 =Label(input_frame, text="{}".format(score), fg = 'black', font=('Arial',12, 'bold'))
+    cantidad4.pack(side='right', pady=0, padx=10)
+
+    cantidad1 =Label(input_frame, text='Score : ', fg = 'black', font=('Arial',12, 'bold'))
+    cantidad1.pack(side='right', pady=0, padx=10)
+
 
 def informar_ganador():
     global interfaz,intentos
@@ -303,7 +318,7 @@ def reiniciar_juego():
     print(ganados)
     intentos=0
     
-
+score = 0
 interfaz = Tk()
 interfaz.title('Wordle')
 interfaz.geometry('600x690')
