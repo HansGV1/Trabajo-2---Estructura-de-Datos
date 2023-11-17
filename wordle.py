@@ -220,7 +220,6 @@ def iniciarjuego():
         search_word_result = search_word(trie_root, intento)
         if search_word_result and len(intento) == long:
             colores = asignar_colores_palabra(intento)
-            
             longitudesy = [100, 100, 90, 80, 70]
             longitudes = [130, 104, 87, 74, 65]
             for i in range(long):
@@ -235,6 +234,10 @@ def iniciarjuego():
             cantidad4.config(text="{}".format(score))
             entry.delete(0, END)
         else:
+            error_message = cv.create_text(290, 275, font=('consolas', 25), text="Palabra no válida,", fill="red", justify=['center'])
+            error_message2 = cv.create_text(290, 310, font=('consolas', 25), text="por favor intentarlo nuevamente", fill="red", justify=['center'])
+            interfaz.after(2000, lambda: cv.delete(error_message))
+            interfaz.after(2000, lambda: cv.delete(error_message2))
             print("Palabra no encontrada o palabra inválida. Por favor, ingrese una palabra válida.")
         
         # Verificar si el usuario ha adivinado la palabra
