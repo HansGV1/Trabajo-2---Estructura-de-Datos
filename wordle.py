@@ -16,7 +16,10 @@ from collections import deque
 import random
 from tkinter import *
 from tkinter import ttk
+import tkinter as tk
 from collections import deque
+from threading import Thread
+
 
 class TrieNode:
     def __init__(self):
@@ -126,6 +129,10 @@ long = len(a)
 ganados = 0
 intentos= 0
 ganador= False
+intento_counter = 0
+message= None
+aciertos = 0
+fallos = 0
 
 # Validación palabra en Diccionario/Lemario de inglés
 file_path = 'Diccionario.txt' 
@@ -213,7 +220,7 @@ def iniciarjuego():
         return colores
         
     def ingresar_intento():
-        global z,ganados,intentos  # Declare z as a global variable
+        global z,ganados,intentos, intento_counter  
 
         intento = entry.get()
         
@@ -227,12 +234,18 @@ def iniciarjuego():
                             font=("Arial", 55), fill=colores[i])
             z += 100
             intentos+=1
+            intento_counter += 1
+            
+            if intento_counter == 7:
+                intento_counter = 1
 
             print("El intento fue el numero: ", intentos)
 
             score = intentos
             cantidad4.config(text="{}".format(score))
             entry.delete(0, END)
+            update_message()
+            
         else:
             error_message = cv.create_text(290, 275, font=('consolas', 25), text="Palabra no válida,", fill="red", justify=['center'])
             error_message2 = cv.create_text(290, 310, font=('consolas', 25), text="por favor intentarlo nuevamente", fill="red", justify=['center'])
@@ -247,20 +260,49 @@ def iniciarjuego():
             ganados+=1
         elif intentos == 6 :
             informar_perdedor()
-            
+    
+    def update_message():
+        global intento_counter, message
 
-    ttk.Button(input_frame, text="Ingresar intento", width=20, command=ingresar_intento).pack(side='left', pady=0, padx=10)
+        delete_message()
+
+        # Create a new message and add it to the canvas
+        message_text = f"Intento {intento_counter}"
+        message = cv.create_text(290, 275, font=('consolas', 25), text=message_text, fill="black", justify=['center'])
+
+        # Schedule the deletion of the message after a delay
+        interfaz.after(3000, delete_message)
+        
+    def delete_message():
+        global cv, message
+
+        if cv.winfo_exists():
+        # Check if the message item exists
+            if message and cv.type(message) == "text":
+                cv.delete(message)
 
     
-    cantidad4 =Label(input_frame, text="{}".format(score), fg = 'black', font=('Arial',12, 'bold'))
-    cantidad4.pack(side='right', pady=0, padx=10)
+    ttk.Button(input_frame, text="Ingresar intento", width=20, command=ingresar_intento).pack(side='left', pady=0, padx=10)
 
-    cantidad1 =Label(input_frame, text='Score : ', fg = 'black', font=('Arial',12, 'bold'))
-    cantidad1.pack(side='right', pady=0, padx=10)
+    global cantidad4,cantidad8
+    cantidad4 =Label(input_frame, text="{}".format(aciertos), fg = 'black', font=('Arial',12, 'bold'))
+    cantidad4.pack(side='right', pady=0, padx=3)
+
+    cantidad1 =Label(input_frame, text='Aciertos:', fg = 'black', font=('Arial',12, 'bold'))
+    cantidad1.pack(side='right', pady=0, padx=3)
+
+    cantidad7 =Label(input_frame, text="{}".format(fallos), fg = 'black', font=('Arial',12, 'bold'))
+    cantidad7.pack(side='right', pady=0, padx=3)
+
+    cantidad8 =Label(input_frame, text='Fallos:', fg = 'black', font=('Arial',12, 'bold'))
+    cantidad8.pack(side='right', pady=0, padx=3)
 
 
 def informar_ganador():
-    global interfaz,intentos
+    global interfaz, aciertos
+    
+    aciertos += 1
+    cantidad4.config(text="{}".format(aciertos))
 
     # Mensaje que se mostrará en la interfaz
     mensaje_ganador = "¡Felicidades! Has adivinado la palabra."
@@ -278,15 +320,15 @@ def informar_ganador():
     etiqueta_ganador.pack()
 
     # Botón para reiniciar el juego
-    boton_reiniciar = Button(marco_ganador, text='Reiniciar', font=("Arial", 20), command=reiniciar_juego)
+    boton_reiniciar = Button(marco_ganador, text='Reiniciar', font=("Arial", 20), command=lambda: reiniciar_juego(aciertos))
     boton_reiniciar.pack(pady=20)
 
-    ganador= True 
-    intentos=0
 
 def informar_perdedor():
-    global interfaz
+    global interfaz, fallos
 
+    fallos += 1
+    cantidad8.config(text="{}".format(fallos))
     # Mensaje que se mostrará en la interfaz
     mensaje_perdedor = "Has perdido, la palabra era: " + a
 
@@ -320,8 +362,11 @@ def reiniciar_juego():
     ganador = False
     print(ganados)
     intentos=0
-    
-score = 0
+
+
+aciertos = 0
+fallos = 0
+
 interfaz = Tk()
 interfaz.title('Wordle')
 interfaz.geometry('600x690')
