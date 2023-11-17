@@ -8,6 +8,99 @@ ganados = 0
 intentos= 0
 ganador= False
 
+# Trabajo 1 Estructura de Datos
+#
+# Wordle Game
+#
+# Integrantes:
+# + Hans Guillermo García Vargas - hggarciag@unal.edu.co
+# + Jose Manuel Molina Vásquez  - josemoloinav@unal.edu.co
+# + Juan Jose Alzate Rojas - jalzatero@unal.edu.co
+# + Fabian Andres Chiran Guevara - fchirang@unal.edu.co
+#
+# Universidad Nacional de Colombia
+#
+#
+
+from collections import deque
+import random
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end_of_word = False
+        self.word_count = 0
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        self.count = 0
+        self.word_list = []
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+            node.word_count += 1
+        node.is_end_of_word = True
+        self.word_list.append(word)
+
+    def search(self, word):
+        node = self.root
+        matched_characters = []
+        for char in word:
+            if char not in node.children:
+                return False
+            matched_characters.append(char)
+            node = node.children[char]
+            
+        return "".join(matched_characters), node.is_end_of_word
+
+    def retrieve_random_word(self, length):
+        candidates = [word for word in self.word_list if len(word) == length]
+        return random.choice(candidates)
+
+def inputDificultad():
+    while True:
+        try:
+            lenPalabra = int(input("Escoja la dificultad, ingrese un número entre 4 y 8 indicando el tamaño de la palabra: "))
+            if 4 <= lenPalabra <= 8:
+                break
+            else:
+                print("Error: Dificultad inválida. Por favor ingrese un número entre 4 y 8 indicando el tamaño de la palabra.")
+        except ValueError:
+            print("Entrada no válida. Por favor ingrese un número válido.")
+    
+    return lenPalabra
+
+def trie():
+    Lemario = ['pipeline', 'beards', 'hapiness', 'dessert', 'maybe', 'puzzle', 'same', 'showroom', 'wafer', 'dracula', 'voor', 'noodle', 'reshape', 'stigma', 'dwellers', 'gripe', 'keyrings', 'dorothea', 'hecht', 'dubuque', 'widening', 'metro', 'crichton', 'wenn', 'pamphlet', 'aarhus', 'convoy', 'stone', 'fail', 'roommate', 'moro', 'paint', 'viacom', 'ebayer', 'glace', 'pension', 'bathtub', 'snot', 'vitesse', 'alonso', 'precio', 'balm', 'pointer', 'clarins', 'tendency', 'hematite', 'bromide', 'boat', 'sexually', 'aguirre', 'tarp', 'prevail', 'charles', 'comedy', 'nearing', 'freeport', 'faerie', 'silicate', 'confined', 'equinox', 'raitt', 'crud', 'bbci', 'estrogen', 'stewards', 'equate', 'fountain', 'dara', 'eugene', 'kessler', 'titleist', 'scherer', 'nutty', 'fairs', 'licences', 'osage', 'traders', 'args', 'jodie', 'samantha', 'siege', 'though', 'unable', 'lesbicas', 'upper', 'romero', 'martel', 'calvin', 'sumitomo', 'tube', 'brunson', 'monarchs', 'pedersen', 'stables', 'matte', 'couture', 'latino', 'novella', 'strat', 'ashburn', 'thirds', 'bakker', 'rotten', 'weaker', 'kylie', 'orkney', 'cheater', 'falmouth', 'gregorio', 'lampoon', 'collect', 'racer', 'faster', 'blick', 'prone', 'destroy', 'outbound', 'beet', 'shortage', 'hiphop', 'janice', 'approves', 'whats', 'neve', 'taboo', 'harms', 'closeups', 'ruger', 'cherie', 'mondo', 'fractals', 'burgers', 'sarasota', 'batten', 'colman', 'alpaca', 'owls', 'stamina', 'tower', 'textile', 'keele', 'pumpkins', 'come', 'robeson', 'testy', 'pols', 'equifax', 'contre', 'fdisk', 'lockout', 'failed', 'debadmin', 'oranges', 'picket', 'hooks', 'maryann', 'nieuwe', 'poisons', 'schrieb', 'cfnm', 'alienate', 'incoming', 'vila', 'pixma', 'reisen', 'stanford', 'carnal', 'inch', 'sara', 'alexia', 'cadence', 'wished', 'angebote', 'homage', 'capacity', 'torque', 'diflucan', 'spout', 'oyster', 'budget', 'llcs', 'driving', 'kruger', 'virgil', 'baton', 'motoring', 'leyland', 'mancha', 'wept', 'cousin', 'wartime', 'donut', 'lunatic', 'niagara', 'religion', 'heart', 'lola', 'loti', 'mildura', 'annals', 'barge', 'phases', 'debts', 'pippin', 'pollock', 'snails', 'chip', 'adjunct', 'dementia', 'elgin', 'bridger', 'consoles', 'ignored', 'hausa', 'arranges', 'worldcat', 'mowers', 'whenever', 'oddities', 'required', 'writing', 'executed', 'falcons', 'favors', 'caliber', 'hernando', 'older', 'shandong', 'endian', 'knopf', 'clever', 'iogear', 'pyle', 'ruthless', 'reign', 'rino', 'pupil', 'double', 'infosec', 'assessed', 'marketed', 'shakers', 'optimise', 'sesso', 'taro', 'ambien', 'foils', 'withdrew', 'ignite', 'pale', 'magnet', 'deering', 'alltel', 'torsion', 'plas', 'modeling', 'high', 'cosco', 'casts', 'token', 'scenic', 'rancho', 'forde', 'galore', 'allure', 'beverly', 'wooded', 'stabbing', 'klamath', 'ajmer', 'huts', 'trackers', 'rundown', 'mandated', 'junebug', 'surveys', 'sociales', 'stinky', 'sues', 'fichier', 'shiraz', 'cast', 'hansard', 'alex', 'scope', 'blinked', 'searle', 'westward', 'panic', 'soyo', 'freakin', 'built', 'reusing', 'harris', 'warmest', 'meters', 'lsat', 'memory', 'chord', 'meanings', 'serenade', 'hurley', 'mammals', 'mika', 'isola', 'devotee', 'zambezi', 'frosting', 'praises', 'myself', 'specific', 'brigade', 'gradient', 'diary', 'original', 'myer', 'inquired', 'forrest', 'pantech', 'laura', 'came', 'watcher', 'philip', 'canning', 'dscp', 'nothing', 'clemson', 'parallel', 'chard', 'partie', 'hyundai', 'pies', 'picked', 'repaired', 'tucows', 'milk', 'xpdf', 'rogues', 'fleece', 'agri', 'draw', 'doped', 'passat', 'defines', 'howling', 'slimming', 'dealer', 'talkin', 'imposing', 'techweb', 'anode', 'paragon', 'hygiene', 'watches', 'postmark', 'chatter', 'minidisc', 'michaels', 'barlow', 'jolt', 'valance', 'roselle', 'gaining', 'yorke', 'rotate', 'wang', 'lethal', 'ordering', 'toggle', 'deluxe', 'parting', 'lott', 'autonomy', 'ladybird', 'skimage', 'dominion', 'stingy', 'towns', 'rage', 'trixie', 'helios', 'militia', 'mainpage', 'oxygen', 'stis', 'rowland', 'faction', 'mifflin', 'cushion', 'vesta', 'variable', 'henning', 'louise', 'yogurt', 'howtos', 'yashica', 'bulk', 'torpedo', 'hosting', 'mise', 'bouts', 'rusk', 'appease', 'inode', 'goodness', 'kardon', 'mohawk', 'catching', 'jossey', 'musings', 'lois', 'skating', 'reims', 'koji', 'fast', 'puma', 'quiver', 'absence', 'equip', 'lebron', 'rmdir', 'hodge', 'realtor', 'winer', 'bancroft', 'rooter', 'bought', 'sophos', 'bistro', 'anza', 'simcoe', 'tactic', 'tucson', 'citroen', 'kazan', 'centre', 'meetups', 'duracell', 'sprache', 'camargo', 'frazier', 'pkgsrc', 'infill', 'joining', 'meine', 'trinket', 'boys', 'palm', 'cages', 'handling', 'junkyard', 'inner', 'erode', 'plow', 'itat', 'lawless', 'vicodin', 'pebble', 'info', 'rubles', 'looping', 'mine', 'sharks', 'dishes', 'jewelry', 'connects', 'wayne', 'tracking', 'mint', 'elders', 'berne', 'pour', 'heyday', 'bally', 'sucking', 'longing', 'awake', 'grantor', 'custom', 'martyr', 'baku', 'stade', 'balloon', 'hardwood', 'corps', 'parkside', 'astor', 'gbps', 'helsing', 'navi', 'warlock', 'shrunk', 'make', 'bossa', 'abusing', 'pleading', 'sheriffs', 'zyban', 'dumped', 'sheikh']
+    trie = Trie()
+    
+    for palabra in Lemario:
+        trie.insert(palabra)
+         
+    return trie
+
+
+def generadorPalabra(trie):
+    palabraDelDia = trie.retrieve_random_word(inputDificultad())
+    return palabraDelDia
+
+def inputUsuario(trie):
+
+    palabraDia = generadorPalabra(trie)
+    user_input = input("Ingrese una palabra, recuerde que son palabras en inglés: ")
+    matched_characters, is_end_of_word = trie.search(user_input)
+    
+    if is_end_of_word and matched_characters == palabraDia:
+        print("Correcto! Ha ingresado la palabra del día correcta")
+    else:
+        print("Incorrecto! Has agotado tus intentos. Hasta la próxima!")
+
+
 def crear_interfaz():
     global interfaz,f1
 
