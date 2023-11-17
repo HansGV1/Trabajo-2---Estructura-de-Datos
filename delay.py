@@ -126,10 +126,6 @@ long = len(a)
 ganados = 0
 intentos= 0
 ganador= False
-intento_counter = 0
-message= None
-aciertos = 0
-fallos = 0
 interfaz=None
 
 # Validación palabra en Diccionario/Lemario de inglés
@@ -217,11 +213,11 @@ def iniciarjuego():
         return colores
         
     def ingresar_intento():
-        global z,ganados,intentos, intento_counter  
+        global z,ganados,intentos,aciertos,fallos,cantidad4  # Declare z as a global variable
 
         intento = entry.get()
+
         search_word_result = search_word(trie_root, intento)
-        print(a)
         if search_word_result and len(intento) == long:
             colores = asignar_colores_palabra(intento)
             longitudesy = [100, 100, 90, 80, 70]
@@ -231,55 +227,30 @@ def iniciarjuego():
                             font=("Arial", 55), fill=colores[i])
             z += 100
             intentos+=1
-            intento_counter += 1
-            
-            if intento_counter == 7:
-                intento_counter = 1
 
             print("El intento fue el numero: ", intentos)
 
             entry.delete(0, END)
-            update_message()
             
         else:
             error_message = cv.create_text(290, 275, font=('consolas', 25), text="Palabra no válida,", fill="red", justify=['center'])
             error_message2 = cv.create_text(290, 310, font=('consolas', 25), text="por favor intentarlo nuevamente", fill="red", justify=['center'])
             interfaz.after(2000, lambda: cv.delete(error_message))
             interfaz.after(2000, lambda: cv.delete(error_message2))
-            print("Palabra no encontrada o palabra inválida. Por favor, ingrese una palabra válida.")          
+            print("Palabra no encontrada o palabra inválida. Por favor, ingrese una palabra válida.")
         def mostrar_ganador_con_delay():
             # Esperar unos segundos antes de mostrar al ganador
             interfaz.after(2000, informar_ganador)  # 2000 milisegundos (2 segundos)
+            
         # Verificar si el usuario ha adivinado la palabra
         if intento == a:
             ganador = True
             mostrar_ganador_con_delay()
             ganados+=1
-        
         elif intentos == 6 :
             informar_perdedor()
-    
-    def update_message():
-        global intento_counter, message
+            
 
-        delete_message()
-
-        # Create a new message and add it to the canvas
-        message_text = f"Intento {intento_counter}"
-        message = cv.create_text(290, 275, font=('consolas', 25), text=message_text, fill="black", justify=['center'])
-
-        # Schedule the deletion of the message after a delay
-        interfaz.after(3000, delete_message)
-        
-    def delete_message():
-        global cv, message
-
-        if cv.winfo_exists():
-        # Check if the message item exists
-            if message and cv.type(message) == "text":
-                cv.delete(message)
-
-    
     ttk.Button(input_frame, text="Ingresar intento", width=20, command=ingresar_intento).pack(side='left', pady=0, padx=10)
 
     global cantidad4,cantidad8
@@ -295,11 +266,14 @@ def iniciarjuego():
     cantidad8 =Label(input_frame, text='Fallos:', fg = 'black', font=('Arial',12, 'bold'))
     cantidad8.pack(side='right', pady=0, padx=3)
 
-
 def informar_ganador():
-    global interfaz, aciertos, cantidad4
-    
+    global interfaz,aciertos
+
+    # Mensaje que se mostrará en la interfaz
+    mensaje_ganador = "¡Felicidades! Has adivinado la palabra."
+
     aciertos += 1
+    cantidad4.config(text="{}".format(aciertos))
 
     # Eliminar los widgets existentes en la interfaz
     for widget in interfaz.winfo_children():
@@ -310,26 +284,24 @@ def informar_ganador():
     marco_ganador.pack(expand=True)
 
     # Etiqueta para mostrar el mensaje de ganador
-    mensaje_ganador = "¡Felicidades! Has adivinado la palabra."
     etiqueta_ganador = Label(marco_ganador, text=mensaje_ganador, font=("Arial", 24), bg='grey', pady=20)
     etiqueta_ganador.pack()
 
     # Botón para reiniciar el juego
-    boton_reiniciar = Button(marco_ganador, text='Reiniciar', font=("Arial", 20), command=lambda: reiniciar_juego())
+    boton_reiniciar = Button(marco_ganador, text='Reiniciar', font=("Arial", 20), command=reiniciar_juego)
     boton_reiniciar.pack(pady=20)
 
-    # Check if the widget exists before configuring it
-    if cantidad4.winfo_exists():
-        cantidad4.config(text="{}".format(aciertos))
-
+    ganador= True 
+    intentos=0
 
 def informar_perdedor():
-    global interfaz, fallos
+    global interfaz,fallos
+
+    # Mensaje que se mostrará en la interfaz
+    mensaje_perdedor = "Has perdido, la palabra era: " + a
 
     fallos += 1
     cantidad8.config(text="{}".format(fallos))
-    # Mensaje que se mostrará en la interfaz
-    mensaje_perdedor = "Has perdido, la palabra era: " + a
 
     # Eliminar los widgets existentes en la interfaz
     for widget in interfaz.winfo_children():
@@ -349,28 +321,23 @@ def informar_perdedor():
 
 
 def reiniciar_juego():
-    global interfaz, ganador, intentos, aciertos, fallos, z, intento_counter
+    global interfaz, ganador,intentos
 
     # Destruir widgets adicionales
     for widget in interfaz.winfo_children():
         widget.destroy()
 
-    # Reset variables
-    z = 55
-    intento_counter = 0
-
     # Volver al inicio del código y crear la interfaz inicial
-    global a, long
     a = generadorPalabra(trie(), inputDificultad())
     long = len(a)
     crear_interfaz()
 
     ganador = False
-    intentos = 0
-
+    print(ganados)
+    intentos=0
+    
 aciertos = 0
 fallos = 0
-
 interfaz = Tk()
 interfaz.title('Wordle')
 interfaz.geometry('600x690')
