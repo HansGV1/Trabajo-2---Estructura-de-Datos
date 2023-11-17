@@ -212,7 +212,7 @@ def iniciarjuego():
         intento = entry.get()
         
         search_word_result = search_word(trie_root, intento)
-        if search_word_result:
+        if search_word_result and len(intento) == long:
             colores = asignar_colores_palabra(intento)
             
             longitudesy = [100, 100, 90, 80, 70]
