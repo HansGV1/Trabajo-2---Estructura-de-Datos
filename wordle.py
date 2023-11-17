@@ -163,7 +163,7 @@ def iniciarjuego():
 
 
     def validate_input(char, current_text):
-        return char.isalpha() or char == ""
+        return char.isalpha() and char.islower() or char == ""
 
     vcmd = (interfaz.register(validate_input), '%S', '%P')
 
